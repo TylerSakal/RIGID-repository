@@ -1,0 +1,38 @@
+namespace CalcDays
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            try
+            {
+                Console.WriteLine("This Program was written by Tyler Sakal");
+                Console.WriteLine("Please enter your birthdate (mm/dd/yyyy)");
+                string userValue = Console.ReadLine();
+                DateTime myValue = DateTime.Now;
+                DateTime myBirthday = DateTime.Parse(userValue);
+                TimeSpan myAge = DateTime.Now.Subtract(myBirthday);
+                Console.WriteLine(myAge.TotalDays);
+
+                Console.ReadLine();
+            }
+
+            catch (DirectoryNotFoundException)
+            {
+                Console.WriteLine("Please try again");
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("Please try again");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error occured: {0}", e.Message);
+            }
+            finally
+            {
+                Console.ReadLine();
+            }
+        }
+    }
+}

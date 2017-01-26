@@ -1,0 +1,69 @@
+namespace Mortgage_Calculator
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+        
+        double total = 0, totalpayments=0, totalowed=0;
+        
+        private void calculateButton_Click(object sender, EventArgs e)
+        {
+            double Pval, Arp, Yrs, MonthlyPayment, MonthlyInterestRate, numPayments;
+
+            if (double.TryParse(amtloanTB.Text, out Pval) && Pval > 0)
+            {
+                if (double.TryParse(intrateTB.Text, out Arp) && Arp >= 0 && Arp <= 100)
+                {
+                    if (double.TryParse(yearsTB.Text, out Yrs) && Yrs > 0)
+                    {
+                        
+                        MonthlyInterestRate = (Arp / 12) / 100;
+                        numPayments = Yrs * 12;
+
+                        MonthlyPayment= Microsoft.VisualBasic.Financial.Pmt(MonthlyInterestRate, numPayments, -Pval);
+                        monthpayOutputLbl.Text = MonthlyPayment.ToString("n1");
+
+                        total = total + Pval;
+                        totalloanOutputLbl.Text = total.ToString("n2");
+
+                        totalpayments = totalpayments + numPayments;
+                        totalmonthpayOutputLbl.Text = totalpayments.ToString("n3");
+
+
+                        totalowed = totalowed + (MonthlyPayment * numPayments);
+
+                        double averagemonthlypay = totalowed / totalpayments;
+                       avgmonthpayOutputLbl.Text = averagemonthlypay.ToString("n4");
+
+
+                    }
+                    else { MessageBox.Show("Number of Years Must Be A Number Greater than 0"); }
+                }
+                else { MessageBox.Show("Annual Interest Rate Must Be A Number Between 0 and 100"); }
+            }
+            else { MessageBox.Show("Amount of Loan Must Be A Number Greater than 0"); }
+        }
+
+    
+
+    private void clearButton_Click(object sender, EventArgs e)
+        {
+            amtloanTB.Text = "";
+            intrateTB.Text = "";
+            yearsTB.Text = "";
+            monthpayOutputLbl.Text = "";
+            amtloanTB.Focus();
+        }
+
+        private void exitButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+       
+    }
+
+}
